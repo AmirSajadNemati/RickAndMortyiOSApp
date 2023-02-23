@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// Controller to house tabs and root tab
 class RMTabViewController: UITabBarController {
 
     override func viewDidLoad() {
@@ -15,7 +16,6 @@ class RMTabViewController: UITabBarController {
     
     }
  
-    
     
     private func setUpTabs(){
         let charactersVC = RMCharacterViewController()
