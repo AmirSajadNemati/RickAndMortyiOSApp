@@ -12,7 +12,10 @@ class RMTabViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTabs()
+    
     }
+ 
+    
     
     private func setUpTabs(){
         let charactersVC = RMCharacterViewController()
