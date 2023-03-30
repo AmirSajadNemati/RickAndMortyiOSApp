@@ -15,12 +15,15 @@ final class RMImageLoader {
     
     private init(){}
     
+    
+    /// Get image content with URL
+    /// - Parameters:
+    ///   - url: source URL
+    ///   - completion: Callback
     public func downloadImage(_ url: URL, completion: @escaping(Result<Data, Error>) -> Void){
-        
-        
+  
         let key = url.absoluteString as NSString
         if let data = imageDataCache.object(forKey: key) {
-            print("key\(key)")
             completion(.success(data as Data))
             return
         }
