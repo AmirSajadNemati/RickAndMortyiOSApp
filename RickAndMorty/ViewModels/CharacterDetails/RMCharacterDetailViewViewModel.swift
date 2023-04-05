@@ -19,6 +19,10 @@ final class RMCharacterDetailViewViewModel{
         case episodes(viewModels: [RMCharacterEpisodeCollectionViewCellViewModel])
     }
     
+    public var episodes: [String] {
+        character.episode
+    }
+    
     public var sections: [sectionType] = []
     
     // MARK : - Init
