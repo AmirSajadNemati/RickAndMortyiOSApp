@@ -17,7 +17,7 @@ final class RMRequest{
     }
     
     /// Desired endpoint
-    private let endpoint: RMEndpoint
+    let endpoint: RMEndpoint
     
     
     /// Path components for API, if any
@@ -96,7 +96,7 @@ final class RMRequest{
                     pathComponents = components
                     pathComponents.removeFirst()
                 }
-                print("new ep \(endPointString)")
+                	
                 if let rmEndPoint = RMEndpoint(rawValue: endPointString){
                     self.init(endpoint: rmEndPoint, pathComponents: pathComponents)
                     return
