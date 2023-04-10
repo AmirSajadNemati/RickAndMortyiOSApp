@@ -5,10 +5,10 @@
 //  Created by Amir Sajad Nemati on 4/8/23.
 //
 
-import UIKit
+import Foundation
 
 struct RMEpisodeInfoCollectionViewCellViewModel{
     
-    private let title: String
-    private let value: String
+    public let title: String
+    public let value: String
 }
