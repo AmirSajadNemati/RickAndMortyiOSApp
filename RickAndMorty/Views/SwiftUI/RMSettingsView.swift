@@ -30,10 +30,13 @@ struct RMSettingsView: View {
                         .background(Color(viewModel.iconContainerColor))
                         .cornerRadius(6)
                     
-                    Text(viewModel.title).padding(.leading, 10)
                 }
+                Text(viewModel.title).padding(.leading, 10)
                     
+                    
+                Spacer()
             }
+            
             .onTapGesture {
                 viewModel.onTapHandler(viewModel.type)
             }
