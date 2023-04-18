@@ -58,9 +58,15 @@ final class RMSearchViewController: UIViewController {
         addSearchButton()
         view.addSubviews(searchView)
         addConstraints()
+        
+        searchView.delegate = self
    
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        searchView.showKeyboard()
+    }
     // MARK : - Private
     private func addConstraints(){
         NSLayoutConstraint.activate([
@@ -79,4 +85,21 @@ final class RMSearchViewController: UIViewController {
     }
    
 
+}
+
+// MARK : - RMSearchViewDelegate
+extension RMSearchViewController: RMSearchViewDelegate {
+    func rmSearchView(_ rmSearchView: RMSearchView, didSelect option: RMSearchInputViewViewModel.DynamicOptions) {
+        let vc = RMSearchOptionPickerViewController(
+            option: option) { selection in
+                print("Did select \(selection)")
+            }
+        vc.sheetPresentationController?.detents = [.medium()]
+        vc.sheetPresentationController?.prefersGrabberVisible = true
+        present(vc, animated: true)
+    }
+    
+   
+    
+    
 }
