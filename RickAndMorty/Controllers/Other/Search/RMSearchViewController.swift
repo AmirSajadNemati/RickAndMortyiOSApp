@@ -33,6 +33,17 @@ final class RMSearchViewController: UIViewController {
                     
                 }
             }
+            
+            var endpoint: RMEndpoint{
+                switch self {
+                case .episode:
+                    return .episode
+                case .character:
+                    return .character
+                case .location:
+                    return .location
+                }
+            }
         }
         let type: `Type`
     }
@@ -77,10 +88,15 @@ final class RMSearchViewController: UIViewController {
         ])
     }
     private func addSearchButton(){
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapExecuteSearch))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: self,
+            action: #selector(didTapExecuteSearch)
+        )
     }
     
     @objc func didTapExecuteSearch(){
+        viewModel.executeSearch()
         
     }
    
@@ -91,8 +107,10 @@ final class RMSearchViewController: UIViewController {
 extension RMSearchViewController: RMSearchViewDelegate {
     func rmSearchView(_ rmSearchView: RMSearchView, didSelect option: RMSearchInputViewViewModel.DynamicOptions) {
         let vc = RMSearchOptionPickerViewController(
-            option: option) { selection in
-                print("Did select \(selection)")
+            option: option) { [weak self] selection in
+                DispatchQueue.main.async {
+                    self?.viewModel.set(value: selection, for: option)
+                }
             }
         vc.sheetPresentationController?.detents = [.medium()]
         vc.sheetPresentationController?.prefersGrabberVisible = true

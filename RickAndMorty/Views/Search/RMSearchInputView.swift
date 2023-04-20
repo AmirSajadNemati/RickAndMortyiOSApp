@@ -7,13 +7,23 @@
 
 import UIKit
 
+
 protocol RMSearchInputViewDelegate: AnyObject {
     func rmSearchInputView(
         _ rmSearchInputView: RMSearchInputView,
         didSelect option: RMSearchInputViewViewModel.DynamicOptions
     )
+    func rmSearchInputView(
+        _ rmSearchInputView: RMSearchInputView,
+        didChangeSearchtext text: String
+    )
+    func rmSearchInputViewDidTapSearchKeyboard(
+        _ rmSearchInputView: RMSearchInputView
+    )
     
 }
+
+/// View for top part of search screen with search bar
 final class RMSearchInputView: UIView {
     
     weak public var delegate: RMSearchInputViewDelegate?
@@ -27,7 +37,7 @@ final class RMSearchInputView: UIView {
             createOptionSelectionViews(options: options)
         }
     }
-    
+    private var stackView: UIStackView?
     // MARK : - SubViews
     private let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
@@ -44,6 +54,7 @@ final class RMSearchInputView: UIView {
         addSubviews(searchBar)
         
         addConstraints()
+        searchBar.delegate = self
         
     }
     
@@ -81,7 +92,7 @@ final class RMSearchInputView: UIView {
     private func createOptionSelectionViews(options: [RMSearchInputViewViewModel.DynamicOptions]) {
        
         let stackView = createOptionStackView()
-        
+        self.stackView = stackView
         for x in 0..<options.count {
             let option = options[x]
             let button = createButton(with: option, tag: x)
@@ -129,5 +140,39 @@ final class RMSearchInputView: UIView {
 
     public func showKeyboard(){
         searchBar.becomeFirstResponder()
+    }
+    
+    public func update(option: RMSearchInputViewViewModel.DynamicOptions, value: String){
+        // Update options
+        guard let buttons = stackView?.arrangedSubviews as? [UIButton],
+              let allOptions = viewModel?.options,
+              let index = allOptions.firstIndex(of: option) else {
+                  return
+              }
+        
+        let button: UIButton = buttons[index]
+        button.setAttributedTitle(
+            NSAttributedString(
+                string: value.uppercased(),
+                attributes: [
+                    .font: UIFont.systemFont(ofSize: 18, weight: .medium),
+                    .foregroundColor: UIColor.link
+                ]
+            ), for: .normal
+        )
+    }
+}
+
+extension RMSearchInputView: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        // Notify delegate of change text
+        delegate?.rmSearchInputView(self, didChangeSearchtext: searchText)
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        // Notify that search button was tapped
+        searchBar.resignFirstResponder()
+        delegate?.rmSearchInputViewDidTapSearchKeyboard(self)
+        
     }
 }
