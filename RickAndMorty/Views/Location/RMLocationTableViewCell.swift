@@ -55,6 +55,7 @@ final class RMLocationTableViewCell: UITableViewCell {
     
     private func addConstraints(){
         NSLayoutConstraint.activate([
+            //contentView.heightAnchor.constraint(equalToConstant: 100),
             nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             nameLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10),
             nameLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10),
