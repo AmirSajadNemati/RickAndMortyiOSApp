@@ -124,3 +124,29 @@ extension RMLocationView: UITableViewDataSource {
         return cell
     }
 }
+
+// MARK : - ScrollView
+
+//extension RMLocationView: UIScrollViewDelegate {
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        guard let viewModel = viewModel,
+//              viewModel.shouldShowLoadMoreIndicator,
+//              !viewModel.isLoadingMoreCharacters,
+//              !viewModel.cellViewModels.isEmpty,
+//        else {
+//            return
+//        }
+//
+//        Timer.scheduledTimer(withTimeInterval: 0.4, repeats: false) { [weak self] t in
+//            let offset = scrollView.contentOffset.y
+//            let totalContentView = scrollView.contentSize.height
+//            let totalScrollViewFixedY = scrollView.frame.size.height
+//
+//            if offset >= (totalContentView - totalScrollViewFixedY - 120) {
+//
+//                self?.fetchAditionalCharacters()
+//            }
+//            t.invalidate()
+//        }
+//    }
+//}
