@@ -74,6 +74,7 @@
 		5AF485D329A791B0002F208C /* RMService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF485D229A791B0002F208C /* RMService.swift */; };
 		5AF485D529A791BD002F208C /* RMRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF485D429A791BD002F208C /* RMRequest.swift */; };
 		5AF485D729A791CE002F208C /* RMEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF485D629A791CE002F208C /* RMEndpoint.swift */; };
+		5AFE46902A0BCDCF00AADFDF /* RMTableLoadingFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFE468F2A0BCDCF00AADFDF /* RMTableLoadingFooterView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -146,6 +147,7 @@
 		5AF485D229A791B0002F208C /* RMService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMService.swift; sourceTree = "<group>"; };
 		5AF485D429A791BD002F208C /* RMRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMRequest.swift; sourceTree = "<group>"; };
 		5AF485D629A791CE002F208C /* RMEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMEndpoint.swift; sourceTree = "<group>"; };
+		5AFE468F2A0BCDCF00AADFDF /* RMTableLoadingFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMTableLoadingFooterView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -432,6 +434,7 @@
 				5AB566C029E5919A002832B0 /* RMLocationView.swift */,
 				5ADD73F029EAE3C5003453EB /* RMLocationTableViewCell.swift */,
 				5ADD73F629EB1757003453EB /* RMLocationDetailView.swift */,
+				5AFE468F2A0BCDCF00AADFDF /* RMTableLoadingFooterView.swift */,
 			);
 			path = Location;
 			sourceTree = "<group>";
@@ -544,6 +547,7 @@
 				5A8B6A00299298E4004B7EE8 /* RMTabViewController.swift in Sources */,
 				5A0CDB9229DEBFC6005E3720 /* RMEpisodeListView.swift in Sources */,
 				5A00006D29B0BCF2003F9944 /* RMFooterLoadingCollectionReusableView.swift in Sources */,
+				5AFE46902A0BCDCF00AADFDF /* RMTableLoadingFooterView.swift in Sources */,
 				5A8B69FC299298E4004B7EE8 /* AppDelegate.swift in Sources */,
 				5A4CFD8129D43B5500356280 /* RMCharacterInfoCollectionViewCell.swift in Sources */,
 				5ADD73F129EAE3C5003453EB /* RMLocationTableViewCell.swift in Sources */,
