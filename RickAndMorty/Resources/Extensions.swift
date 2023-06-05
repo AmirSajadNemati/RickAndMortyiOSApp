@@ -14,3 +14,8 @@ extension UIView {
         })
     }
 }
+
+extension UIDevice {
+    static let isiPhone = UIDevice.current.userInterfaceIdiom == .phone
+    static let isMacCata = UIDevice.current.userInterfaceIdiom == .mac
+}
