@@ -201,6 +201,31 @@ extension RMSearchResultsView: UICollectionViewDelegate, UICollectionViewDataSou
         return cell
     }
     
+    // Configuring Spinner for collectionView Pagination
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard kind == UICollectionView.elementKindSectionFooter ,
+              let footer = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: RMFooterLoadingCollectionReusableView.identifier,
+                for: indexPath) as? RMFooterLoadingCollectionReusableView else {
+            fatalError("Unsupported")
+        }
+        
+        footer.startAnimating()
+        
+        return footer
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        guard let viewModel = self.viewModel,
+              viewModel.shouldShowLoadMoreIndicator else {
+            return .zero
+        }
+        return CGSize(width: collectionView.frame.width,
+                      height: 100)
+    }
+    
+    // Select Cell Logic
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // Handle cell tab
     }
@@ -224,6 +249,56 @@ extension RMSearchResultsView: UICollectionViewDelegate, UICollectionViewDataSou
 
 extension RMSearchResultsView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if !locationCellViewModels.isEmpty {
+            handleLocationPagination(scrollView: scrollView)
+        } else {
+            // CollectionView
+            handleCharacterOrEpisodePagination(scrollView: scrollView)
+        }
+    }
+    private func handleCharacterOrEpisodePagination(scrollView: UIScrollView){
+        guard let viewModel = viewModel,
+              !collectionViewCellViewModels.isEmpty,
+              !viewModel.isLoadingMoreResults,
+              viewModel.shouldShowLoadMoreIndicator
+        else {
+            return
+        }
+
+        Timer.scheduledTimer(withTimeInterval: 0.4, repeats: false) { [weak self] t in
+            let offset = scrollView.contentOffset.y
+            let totalContentView = scrollView.contentSize.height
+            let totalScrollViewFixedY = scrollView.frame.size.height
+
+            if offset >= (totalContentView - totalScrollViewFixedY - 120) {
+                
+                self?.viewModel?.fetchAditionalResults(completion: { [weak self] newResults in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    DispatchQueue.main.async {
+                        strongSelf.tableView.tableFooterView = nil
+
+                        let originalCount = strongSelf.collectionViewCellViewModels.count
+                        let newCount = (newResults.count - originalCount)
+                        let total = originalCount + newCount
+                        let startingIndex = total - newCount
+                        let IndexPathsToAdd: [IndexPath] = Array(startingIndex..<(startingIndex + newCount) ).compactMap({
+                            return IndexPath(row: $0, section: 0)
+                        })
+    
+                        strongSelf.collectionViewCellViewModels = newResults
+                        strongSelf.collectionView.insertItems(at: IndexPathsToAdd)
+                    }
+                    print("\(newResults.count) items")
+                })
+            }
+            t.invalidate()
+        }
+
+    }
+    
+    private func handleLocationPagination(scrollView: UIScrollView){
         guard let viewModel = viewModel,
               !locationCellViewModels.isEmpty,
               !viewModel.isLoadingMoreResults,
@@ -246,12 +321,11 @@ extension RMSearchResultsView: UIScrollViewDelegate {
                     self?.locationCellViewModels = newResults
                     self?.tableView.reloadData()
                 })
-
-
             }
             t.invalidate()
         }
     }
+        
 
     private func showLoadingIndicator() {
         let footer = RMTableLoadingFooterView(frame: CGRect(x: 0, y: 0, width: frame.self.width, height: 100))
