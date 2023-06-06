@@ -9,6 +9,8 @@ import UIKit
 
 protocol RMSearchResultsViewDelegate: AnyObject {
     func rmSearchResultView(_ resultsView: RMSearchResultsView, didTapLocationAt index: Int)
+    func rmSearchResultView(_ resultsView: RMSearchResultsView, didTapCharacterAt index: Int)
+    func rmSearchResultView(_ resultsView: RMSearchResultsView, didTapEpisodeAt index: Int)
 }
 
 /// Shows search results UI( table or collectin as desired)
@@ -228,6 +230,17 @@ extension RMSearchResultsView: UICollectionViewDelegate, UICollectionViewDataSou
     // Select Cell Logic
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // Handle cell tab
+        guard let viewModel = viewModel else {
+            return
+        }
+        switch viewModel.results {
+        case .character(let viewModel):
+            delegate?.rmSearchResultView(self, didTapCharacterAt: indexPath.row)
+        case .episode(let viewModel):
+            delegate?.rmSearchResultView(self, didTapEpisodeAt: indexPath.row)
+        case .location:
+            break // Already Handled with TableView
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

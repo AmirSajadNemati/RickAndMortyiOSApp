@@ -89,13 +89,28 @@ final class RMSearchViewViewModel{
     ){
         self.optionMapUpdateBlock = block
     }
-    
+    // Get Location Index
     public func locationSearchResult(at index: Int) -> RMLocation? {
         guard let searchModel = searchResultModels as? RMGetAllLocationsResponse else {
             return nil
         }
         return searchModel.results[index]
     }
+    // Get Character Index
+    public func characterSearchResult(at index: Int) -> RMCharacter? {
+        guard let searchModel = searchResultModels as? RMGetAllCharactersResponse else {
+            return nil
+        }
+        return searchModel.results[index]
+    }
+    // Get Episode Index
+    public func episodeSearchResult(at index: Int) -> RMEpisode? {
+        guard let searchModel = searchResultModels as? RMGetAllEpisodesResponse else {
+            return nil
+        }
+        return searchModel.results[index]
+    }
+    
     // MARK : - Private
     private func makeSearchAPICall<T: Codable>(_ type: T.Type, request: RMRequest){
         RMService.shared.execute(request, expecting: type) {[weak self] result in

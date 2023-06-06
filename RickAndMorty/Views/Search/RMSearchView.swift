@@ -15,6 +15,14 @@ protocol RMSearchViewDelegate: AnyObject {
         _ rmSearchView: RMSearchView,
         didTapLocation location: RMLocation
     )
+    func rmSearchView(
+        _ rmSearchView: RMSearchView,
+        didTapCharacter character: RMCharacter
+    )
+    func rmSearchView(
+        _ rmSearchView: RMSearchView,
+        didTapEpisode episode: RMEpisode
+    )
 }
 final class RMSearchView: UIView {
     
@@ -148,10 +156,27 @@ extension RMSearchView: RMSearchInputViewDelegate {
 
 // MARK : - RMSearchResultsViewDelegate
 extension RMSearchView: RMSearchResultsViewDelegate {
+    // Location
     func rmSearchResultView(_ resultsView: RMSearchResultsView, didTapLocationAt index: Int) {
         guard let locationModel = viewModel.locationSearchResult(at: index) else {
             return
         }
         delegate?.rmSearchView(self, didTapLocation: locationModel)
+    }
+    
+    // Character
+    func rmSearchResultView(_ resultsView: RMSearchResultsView, didTapCharacterAt index: Int) {
+        guard let characterModel = viewModel.characterSearchResult(at: index) else {
+            return
+        }
+        delegate?.rmSearchView(self, didTapCharacter: characterModel)
+    }
+    
+    // Episode
+    func rmSearchResultView(_ resultsView: RMSearchResultsView, didTapEpisodeAt index: Int) {
+        guard let episodeModel = viewModel.episodeSearchResult(at: index) else {
+            return
+        }
+        delegate?.rmSearchView(self, didTapEpisode: episodeModel)
     }
 }
